@@ -133,6 +133,10 @@ export class Renderer {
     }
 
     render() {
+        this.t +=0.1
+        if(this.t >2.0*Math.PI){
+            this.t-=2.0*Math.PI;
+        }
         //Create the matrices before doing command encoding
         const projection = mat4.create();
         //making projection matrix
@@ -160,6 +164,8 @@ export class Renderer {
         // this.device.queue.writeBuffer(this.uniformBuffer, 64, <ArrayBuffer>view); 
         // this.device.queue.writeBuffer(this.uniformBuffer, 128, <ArrayBuffer>projection); 
 
+
+        //mat4 was being viewed as IndexCollection. WriteBUffer wanted type to be GPUAllowSharedBufferSource
         this.device.queue.writeBuffer(this.uniformBuffer, 0, new Float32Array(model));
        this.device.queue.writeBuffer(this.uniformBuffer, 64, new Float32Array(view));
         this.device.queue.writeBuffer(this.uniformBuffer, 128, new Float32Array(projection));
