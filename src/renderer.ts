@@ -14,7 +14,7 @@ export class Renderer {
     format !: GPUTextureFormat;
 
     // Pipeline objects
-    uniformBuffer!: GPUBuffer;
+    uniformBuffer!: GPUBuffer;//This will hold
     bindGroup!: GPUBindGroup;
     pipeline!: GPURenderPipeline;
 
@@ -65,14 +65,33 @@ export class Renderer {
     }
 
     async makePipeline() {
+        this.uniformBuffer = this.device.createBuffer({
+            size: 64 * 3,
+            usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
+        });
 
-        const bindGroupLayout = this.device.createBindGroupLayout({
-            entries: [],
+        
+        const bindGroupLayout = this.device.createBindGroupLayout({//Declare I am using a uniform buffer
+             entries: [
+                {
+                    binding: 0,
+                    visibility: GPUShaderStage.VERTEX,
+                    buffer: {}
+                }
+            ]
+
         });
     
-        this.bindGroup = this.device.createBindGroup({
+        this.bindGroup = this.device.createBindGroup({//Tells which uniform buffer I am using
             layout: bindGroupLayout,
-            entries: []
+            entries: [
+                {
+                    binding: 0,
+                    resource: {
+                        buffer: this.uniformBuffer
+                    }
+                }
+            ]
         });
         
         const pipelineLayout = this.device.createPipelineLayout({
@@ -116,19 +135,28 @@ export class Renderer {
         const projection = mat4.create();
         //making projection matrix
         //writes to projection
-        mat4.perspective(projection,Math.PI/4,800/600,0.1,10);
+        mat4.perspective(projection, Math.PI/4, 800/600, 0.1, 10);
+
 
         const view = mat4.create();
-        mat4.lookAt(view,[-2,0,2],[0,0,0],[0,0,1]);
+        mat4.lookAt(view, [-2, 0, 2], [0, 0, 0], [0, 0, 1]);
+
 
         const model = mat4.create();
-        mat4.rotate(model,model,0,[0,0,1]);
+        //Store, in the model matrix, the model matrix after rotating it by t radians around the z axis.
+        mat4.rotate(model, model, this.t, [0,0,1]);
+
+        //Write data in from uniform buffer
+        this.device.queue.writeBuffer(this.uniformBuffer, 0, <ArrayBuffer>model); 
+        this.device.queue.writeBuffer(this.uniformBuffer, 64, <ArrayBuffer>view); 
+        this.device.queue.writeBuffer(this.uniformBuffer, 128, <ArrayBuffer>projection); 
+
         //command encoder: records draw commands for submission
         const commandEncoder : GPUCommandEncoder = this.device.createCommandEncoder();
         //texture view: image view to the color buffer in this case
         const textureView : GPUTextureView = this.context.getCurrentTexture().createView();
         //renderpass: holds draw commands, allocated from command encoder
-        const renderpass : GPURenderPassEncoder = commandEncoder.beginRenderPass({
+       const renderpass : GPURenderPassEncoder = commandEncoder.beginRenderPass({
             colorAttachments: [{
                 view: textureView,
                 clearValue: {r: 0.5, g: 0.0, b: 0.25, a: 1.0},
@@ -136,6 +164,7 @@ export class Renderer {
                 storeOp: "store"
             }]
         });
+        
         renderpass.setPipeline(this.pipeline);
         renderpass.setVertexBuffer(0, this.triangleMesh.buffer);
         renderpass.setBindGroup(0, this.bindGroup);
@@ -143,6 +172,7 @@ export class Renderer {
         renderpass.end();
     
         this.device.queue.submit([commandEncoder.finish()]);
+    
 
     }
 }
