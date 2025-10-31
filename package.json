@@ -15,13 +15,13 @@
   "dependencies": {
     "@types/node": "*",
     "@webgpu/types": "*",
-    "gl-matrix": "*",
+    "gl-matrix": "^3.4.4",
+    "live-server": "*",
     "node": "*",
     "ts-loader": "*",
     "ts-shader-loader": "*",
     "typescript": "*",
     "webpack": "*",
-    "webpack-cli": "*",
-    "live-server": "*"
+    "webpack-cli": "*"
   }
 }

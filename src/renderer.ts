@@ -76,7 +76,9 @@ export class Renderer {
                 {
                     binding: 0,
                     visibility: GPUShaderStage.VERTEX,
-                    buffer: {}
+                    buffer: {//speicifying buffer type
+                        type:"uniform"
+                    }
                 }
             ]
 
@@ -147,9 +149,20 @@ export class Renderer {
         mat4.rotate(model, model, this.t, [0,0,1]);
 
         //Write data in from uniform buffer
-        this.device.queue.writeBuffer(this.uniformBuffer, 0, <ArrayBuffer>model); 
-        this.device.queue.writeBuffer(this.uniformBuffer, 64, <ArrayBuffer>view); 
-        this.device.queue.writeBuffer(this.uniformBuffer, 128, <ArrayBuffer>projection); 
+        //type BufferSource = ArrayBufferView<ArrayBuffer> | ArrayBuffer;
+        //  Type 'IndexedCollection' is missing the following properties from type 'ArrayBuffer': byteLength, slice, [Symbol.toStringTag]
+        
+    
+        //writeBuffer(buffer, bufferOffset, data, dataOffset, size)
+        //data object representing the data source to write into the GPUBuffer. This can be an ArrayBuffer
+        //mat4 os type FLoat32Array<ArrayBufferLike>
+        // this.device.queue.writeBuffer(this.uniformBuffer, 0, model as unknown as Float32Array);
+        // this.device.queue.writeBuffer(this.uniformBuffer, 64, <ArrayBuffer>view); 
+        // this.device.queue.writeBuffer(this.uniformBuffer, 128, <ArrayBuffer>projection); 
+
+        this.device.queue.writeBuffer(this.uniformBuffer, 0, new Float32Array(model));
+       this.device.queue.writeBuffer(this.uniformBuffer, 64, new Float32Array(view));
+        this.device.queue.writeBuffer(this.uniformBuffer, 128, new Float32Array(projection));
 
         //command encoder: records draw commands for submission
         const commandEncoder : GPUCommandEncoder = this.device.createCommandEncoder();
