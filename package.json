@@ -16,6 +16,7 @@
     "@types/node": "*",
     "@webgpu/types": "*",
     "3d-view-controls": "^2.2.2",
+    "gl-matrix": "^3.4.4",
     "live-server": "*",
     "node": "*",
     "ts-loader": "*",
