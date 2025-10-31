@@ -24,3 +24,5 @@ fn vs_main(@location(0) vertexPostion: vec2<f32>, @location(1) vertexColor: vec3
 fn fs_main(@location(0) Color: vec4<f32>) -> @location(0) vec4<f32> {
     return Color;
 }
+
+test
