@@ -1,7 +1,7 @@
 import shader from "./shaders/shaders.wgsl";
 import { TriangleMesh } from "./triangle_mesh";
 import { mat4 } from "gl-matrix";
-
+import { Material } from "./material";
 
 export class Renderer {
 
@@ -20,6 +20,7 @@ export class Renderer {
 
     // Assets
     triangleMesh!: TriangleMesh;
+    material !: Material;
 
     t: number = 0.0;
 
@@ -40,7 +41,7 @@ export class Renderer {
 
         await this.setupDevice();
 
-        this.createAssets();
+        await this.createAssets();
     
         await this.makePipeline();
 
@@ -79,7 +80,19 @@ export class Renderer {
                     buffer: {//speicifying buffer type
                         type:"uniform"
                     }
-                }
+                },
+                
+                    {
+                        binding:1,
+                        visibility:GPUShaderStage.FRAGMENT,
+                        texture:{}
+                    },
+                    {
+                        binding:2,
+                        visibility:GPUShaderStage.FRAGMENT,
+                        sampler:{}
+
+                    }
             ]
 
         });
@@ -92,6 +105,14 @@ export class Renderer {
                     resource: {
                         buffer: this.uniformBuffer
                     }
+                },
+                {
+                    binding:1,
+                    resource:this.material.view     
+                },
+                {
+                    binding:2,
+                    resource: this.material.sampler            
                 }
             ]
         });
@@ -128,8 +149,10 @@ export class Renderer {
 
     }
 
-    createAssets() {
+    async createAssets() {//Must be async
         this.triangleMesh = new TriangleMesh(this.device);
+        this.material = new Material();//Creating the class
+        await this.material.initalize(this.device,"./dist/img/img.jpg")//pass in device and file path to img
     }
 
     render() {
@@ -154,7 +177,7 @@ export class Renderer {
 
         //type landering -> tells compiler to forget orginal type and make new type
         this.device.queue.writeBuffer(this.uniformBuffer, 0, new Float32Array(model));
-       this.device.queue.writeBuffer(this.uniformBuffer, 64, new Float32Array(view));
+        this.device.queue.writeBuffer(this.uniformBuffer, 64, new Float32Array(view));
         this.device.queue.writeBuffer(this.uniformBuffer, 128, new Float32Array(projection));
 
         //command encoder: records draw commands for submission
