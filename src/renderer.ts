@@ -152,20 +152,7 @@ export class Renderer {
         //Store, in the model matrix, the model matrix after rotating it by t radians around the z axis.
         mat4.rotate(model, model, this.t, [0,0,1]);
 
-        //Write data in from uniform buffer
-        //type BufferSource = ArrayBufferView<ArrayBuffer> | ArrayBuffer;
-        //  Type 'IndexedCollection' is missing the following properties from type 'ArrayBuffer': byteLength, slice, [Symbol.toStringTag]
         
-    
-        //writeBuffer(buffer, bufferOffset, data, dataOffset, size)
-        //data object representing the data source to write into the GPUBuffer. This can be an ArrayBuffer
-        //mat4 os type FLoat32Array<ArrayBufferLike>
-        // this.device.queue.writeBuffer(this.uniformBuffer, 0, model as unknown as Float32Array);
-        // this.device.queue.writeBuffer(this.uniformBuffer, 64, <ArrayBuffer>view); 
-        // this.device.queue.writeBuffer(this.uniformBuffer, 128, <ArrayBuffer>projection); 
-
-
-        //mat4 was being viewed as IndexCollection. WriteBUffer wanted type to be GPUAllowSharedBufferSource
         this.device.queue.writeBuffer(this.uniformBuffer, 0, new Float32Array(model));
        this.device.queue.writeBuffer(this.uniformBuffer, 64, new Float32Array(view));
         this.device.queue.writeBuffer(this.uniformBuffer, 128, new Float32Array(projection));
