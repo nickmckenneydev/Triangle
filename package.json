@@ -16,13 +16,13 @@
     "@types/node": "*",
     "@webgpu/types": "*",
     "gl-matrix": "*",
-    "live-server": "*",
+    "http-server": "*",
     "node": "*",
-    "prettier": "^3.6.2",
     "ts-loader": "*",
     "ts-shader-loader": "*",
     "typescript": "*",
     "webpack": "*",
-    "webpack-cli": "*"
+    "webpack-cli": "*",
+    "live-server": "*"
   }
 }
