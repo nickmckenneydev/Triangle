@@ -152,7 +152,7 @@ export class Renderer {
         //Store, in the model matrix, the model matrix after rotating it by t radians around the z axis.
         mat4.rotate(model, model, this.t, [0,0,1]);
 
-        
+        //type landering -> tells compiler to forget orginal type and make new type
         this.device.queue.writeBuffer(this.uniformBuffer, 0, new Float32Array(model));
        this.device.queue.writeBuffer(this.uniformBuffer, 64, new Float32Array(view));
         this.device.queue.writeBuffer(this.uniformBuffer, 128, new Float32Array(projection));
