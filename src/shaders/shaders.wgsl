@@ -4,6 +4,10 @@ struct TransformData {
     projection: mat4x4<f32>,
 };
 @binding(0) @group(0) var<uniform> transformUBO: TransformData;//Uniform buffer declared
+//delcare global objs
+@binding(1) @group(0) var myTexture: texture_2d<f32>;
+@binding(2) @group(0) var myTexture: sampler;//sampler Obj
+
 
 struct Fragment {
     @builtin(position) Position : vec4<f32>,
