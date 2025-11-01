@@ -72,32 +72,28 @@ export class Renderer {
         });
 
         
-        const bindGroupLayout = this.device.createBindGroupLayout({//Declare I am using a uniform buffer
-             entries: [
+        const bindGroupLayout = this.device.createBindGroupLayout({
+            entries: [
                 {
                     binding: 0,
                     visibility: GPUShaderStage.VERTEX,
-                    buffer: {//speicifying buffer type
-                        type:"uniform"
-                    }
+                    buffer: {}
                 },
-                
-                    {
-                        binding:1,
-                        visibility:GPUShaderStage.FRAGMENT,
-                        texture:{}
-                    },
-                    {
-                        binding:2,
-                        visibility:GPUShaderStage.FRAGMENT,
-                        sampler:{}
-
-                    }
+                {
+                    binding: 1,
+                    visibility: GPUShaderStage.FRAGMENT,
+                    texture: {}
+                },
+                {
+                    binding: 2,
+                    visibility: GPUShaderStage.FRAGMENT,
+                    sampler: {}
+                },
             ]
 
         });
     
-        this.bindGroup = this.device.createBindGroup({//Tells which uniform buffer I am using
+this.bindGroup = this.device.createBindGroup({
             layout: bindGroupLayout,
             entries: [
                 {
@@ -107,12 +103,12 @@ export class Renderer {
                     }
                 },
                 {
-                    binding:1,
-                    resource:this.material.view     
+                    binding: 1,
+                    resource: this.material.view
                 },
                 {
-                    binding:2,
-                    resource: this.material.sampler            
+                    binding: 2,
+                    resource: this.material.sampler
                 }
             ]
         });
@@ -152,7 +148,7 @@ export class Renderer {
     async createAssets() {//Must be async
         this.triangleMesh = new TriangleMesh(this.device);
         this.material = new Material();//Creating the class
-        await this.material.initalize(this.device,"./dist/img/img.jpg")//pass in device and file path to img
+        await this.material.initalize(this.device,"dist/img/img.jpg")//pass in device and file path to img
     }
 
     render() {

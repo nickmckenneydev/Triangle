@@ -4,7 +4,7 @@ import { Renderer } from "./renderer";
 async function main(){
     const canvas:HTMLCanvasElement = document.getElementById("gfx-main") as HTMLCanvasElement;
     if(!canvas){
-        console.log("WOMP WOMP");
+        console.log("Canvas Error failed to load");
         return 1;
     }
     try {

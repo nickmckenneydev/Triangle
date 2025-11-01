@@ -40,7 +40,7 @@ export class Material{
                 width:imageData.width,
                 height:imageData.height
             },
-            format:"rgba8snorm",
+            format:"rgba8unorm",
             usage:GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST|GPUTextureUsage.RENDER_ATTACHMENT
         }
         this.texture = device.createTexture(textureDescriptor);
