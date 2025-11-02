@@ -155,7 +155,7 @@ export class Renderer {
 	}
 
 	render() {
-		this.t += 0.1;
+		this.t += 0.1; // Makes my triangle spin
 		if (this.t > 2.0 * Math.PI) {
 			this.t -= 2.0 * Math.PI;
 		}
@@ -169,8 +169,8 @@ export class Renderer {
 		mat4.lookAt(view, [-2, 0, 2], [0, 0, 0], [0, 0, 1]);
 
 		const model = mat4.create();
-		//Store, in the model matrix, the model matrix after rotating it by t radians around the z axis.
-		mat4.rotate(model, model, this.t, [0, 0, 1]);
+		//Store in the model matrix, the model matrix after rotating it by t radians around the z axis
+		mat4.rotate(model, model, this.t, [0, 0, 1]); // This is always turning around due to requestframe
 
 		//type landering -> tells compiler to forget orginal type and make new type
 		this.device.queue.writeBuffer(this.uniformBuffer, 0, new Float32Array(model));
