@@ -30,20 +30,15 @@ export class Renderer {
 
 	t: number = 0.0;
 
-	private constructor(canvas: HTMLCanvasElement) {
+	constructor(canvas: HTMLCanvasElement) {
 		//Shell of obj and sets canvas prop. Make private to block writing new Renderer(canvas). Forces to use create method
 		this.canvas = canvas;
 	}
 	//Public static means it belongs to renderer class
 	//Async allows me to use await
 	//Promise<Renderer> returns a Renderer Obj
-	public static async create(canvas: HTMLCanvasElement): Promise<Renderer> {
-		//Factory method
-		const renderer = new Renderer(canvas); //Calls the constructor. Creates the empty shell of obj
-		await renderer.Initialize(); //
-		return renderer;
-	}
-	private async Initialize() {
+
+	async Initialize() {
 		await this.setupDevice(); //Must be completed before creatingAssets()
 
 		await this.createAssets(); //Must be completed before makePipeline()
