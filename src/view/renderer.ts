@@ -1,7 +1,7 @@
 import shader from './shaders/shaders.wgsl';
-import { TriangleMesh } from './triangle_mesh';
+import { TriangleMesh } from '../triangle_mesh';
 import { mat4 } from 'gl-matrix';
-import { Material } from './material';
+import { Material } from '../material';
 
 //Owns all WebGPU objects and state of webgpu
 export class Renderer {
@@ -31,7 +31,6 @@ export class Renderer {
 	private constructor(canvas: HTMLCanvasElement) {
 		//Shell of obj and sets canvas prop. Make private to block writing new Renderer(canvas). Forces to use create method
 		this.canvas = canvas;
-		this.t = 0.0;
 	}
 	//Public static means it belongs to renderer class
 	//Async allows me to use await
@@ -48,8 +47,6 @@ export class Renderer {
 		await this.createAssets(); //Must be completed before makePipeline()
 
 		await this.makePipeline();
-
-		this.render();
 	}
 
 	async setupDevice() {

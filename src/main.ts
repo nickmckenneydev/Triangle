@@ -1,4 +1,4 @@
-import { Renderer } from './renderer';
+import { Renderer } from './view/renderer';
 
 async function main() {
 	const canvas: HTMLCanvasElement = document.getElementById('gfx-main') as HTMLCanvasElement;
