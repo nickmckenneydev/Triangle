@@ -1,10 +1,10 @@
-import { vec4, mat4 } from 'gl-matrix';
+import { vec3, vec4, mat4 } from 'gl-matrix';
 import { Deg2Rad } from './math_stuff';
 
 export class Camera {
 	position: vec3;
 	eulers: vec3;
-	view: vec4;
+	view!: vec4;
 
 	//this is the 3 props of a camera
 	forwards: vec3;
@@ -13,7 +13,7 @@ export class Camera {
 
 	constructor(position: vec3, theta: number, phi: number) {
 		this.position = position;
-		this.eulers[2] = [0, phi, theta];
+		this.eulers = [0, phi, theta];
 
 		//These are just starting values which will be overwritten
 		this.forwards = vec3.create();
@@ -40,11 +40,7 @@ export class Camera {
 		var target: vec3 = vec3.create();
 		vec3.add(target, this.position, this.forwards);
 		this.view = mat4.create();
-		mat4.lookAt(this.view, this.position, this.up);
-
-		//this.model will have result of matrix|org matrix|translation vector
-		mat4.translate(this.model, this.model, this.position);
-		mat4.rotateZ(this.model, this.model, Deg2Rad(this.eulers[2]));
+		mat4.lookAt(this.view, this.position, target, this.up);
 	}
 
 	get_view(): mat4 {

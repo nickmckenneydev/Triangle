@@ -1,4 +1,4 @@
-import { Renderer } from './view/renderer';
+import { App } from './control/app';
 
 async function main() {
 	const canvas: HTMLCanvasElement = document.getElementById('gfx-main') as HTMLCanvasElement;
@@ -7,14 +7,7 @@ async function main() {
 		return 1;
 	}
 
-	const renderer = await Renderer.create(canvas);
-
-	function gameLoop() {
-		requestAnimationFrame(gameLoop); //Request the next frame from the browser. Schdule work first, then do rendering
-
-		renderer.render(); //Call renderer public render method
-	}
-
-	requestAnimationFrame(gameLoop); //Entry point into loop. Only called once. gameLoop is the call back function
+	const app = new App(canvas);
+	app.initialize();
+	app.run();
 }
-main();
