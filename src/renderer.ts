@@ -3,19 +3,24 @@ import { TriangleMesh } from './triangle_mesh';
 import { mat4 } from 'gl-matrix';
 import { Material } from './material';
 
+//Owns all WebGPU objects and state of webgpu
 export class Renderer {
 	canvas: HTMLCanvasElement;
 
 	// Device/Context objects
+	//Adapter -> GPU available to browser
 	adapter!: GPUAdapter; //!: Non-null assertion operator -> Says that these properties will be assigned before using them
+	//Device -> Creates the Buffers,Textures,Pipelines,Bindgroups,Encoders. Its the main interface for all WebGPU operations
 	device!: GPUDevice;
+	//Context -> Links renderer to HTML canvas. Displays render image on screen. done via context.getCurrentTexture
 	context!: GPUCanvasContext;
+	//GPU stores and interepts pixel data in a texture
 	format!: GPUTextureFormat;
 
 	// Pipeline objects
-	uniformBuffer!: GPUBuffer; //This will hold
-	bindGroup!: GPUBindGroup;
-	pipeline!: GPURenderPipeline;
+	uniformBuffer!: GPUBuffer; // Chunk of memory on GPU.  Its the Data
+	bindGroup!: GPUBindGroup; // groups all resouces so pipeline can work. This points to data. Holds references like GPUBuffer and GPUTexture that shader needs to call
+	pipeline!: GPURenderPipeline; //Assembly line. This is an obj that contains vertex and frag shader. It is also the state
 
 	// Assets
 	triangleMesh!: TriangleMesh;
@@ -38,9 +43,9 @@ export class Renderer {
 		return renderer;
 	}
 	private async Initialize() {
-		await this.setupDevice();
+		await this.setupDevice(); //Must be completed before creatingAssets()
 
-		await this.createAssets();
+		await this.createAssets(); //Must be completed before makePipeline()
 
 		await this.makePipeline();
 
@@ -52,6 +57,7 @@ export class Renderer {
 		this.adapter = <GPUAdapter>await navigator.gpu?.requestAdapter();
 		//device is a wrapper around GPU functionality
 		//Function calls are made through the device object
+		//Preps Canvas
 		this.device = <GPUDevice>await this.adapter?.requestDevice();
 		this.context = <GPUCanvasContext>this.canvas.getContext('webgpu');
 		this.format = 'bgra8unorm';
