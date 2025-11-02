@@ -1,7 +1,9 @@
 import shader from './shaders/shaders.wgsl';
 import { TriangleMesh } from '../triangle_mesh';
 import { mat4 } from 'gl-matrix';
-import { Material } from '../material';
+import { Material } from './material';
+import { Camera } from '../model/camera';
+import { Triangle } from '../model/triangle';
 
 //Owns all WebGPU objects and state of webgpu
 export class Renderer {
@@ -151,26 +153,21 @@ export class Renderer {
 		await this.material.initalize(this.device, 'dist/img/img.jpg'); //pass in device and file path to img
 	}
 
-	render() {
-		this.t += 0.1; // Makes my triangle spin
-		if (this.t > 2.0 * Math.PI) {
-			this.t -= 2.0 * Math.PI;
-		}
+	//GPU API is out of step with rest of program.
+	async render(camera: Camera, triangles: Triangle[]) {
 		//Create the matrices before doing command encoding
 		const projection = mat4.create();
 		//making projection matrix
 		//writes to projection
 		mat4.perspective(projection, Math.PI / 4, 800 / 600, 0.1, 10);
 
-		const view = mat4.create();
-		mat4.lookAt(view, [-2, 0, 2], [0, 0, 0], [0, 0, 1]);
+		const view = camera.get_view();
 
 		const model = mat4.create();
 		//Store in the model matrix, the model matrix after rotating it by t radians around the z axis
 		mat4.rotate(model, model, this.t, [0, 0, 1]); // This is always turning around due to requestframe
 
 		//type landering -> tells compiler to forget orginal type and make new type
-		this.device.queue.writeBuffer(this.uniformBuffer, 0, new Float32Array(model));
 		this.device.queue.writeBuffer(this.uniformBuffer, 64, new Float32Array(view));
 		this.device.queue.writeBuffer(this.uniformBuffer, 128, new Float32Array(projection));
 
@@ -192,8 +189,13 @@ export class Renderer {
 
 		renderpass.setPipeline(this.pipeline);
 		renderpass.setVertexBuffer(0, this.triangleMesh.buffer);
-		renderpass.setBindGroup(0, this.bindGroup);
-		renderpass.draw(3, 1, 0, 0);
+		triangles.forEach((triangle) => {
+			const model = triangle.get_model();
+			this.device.queue.writeBuffer(this.uniformBuffer, 0, new Float32Array(model));
+			renderpass.setBindGroup(0, this.bindGroup);
+			renderpass.draw(3, 1, 0, 0);
+		});
+
 		renderpass.end();
 
 		this.device.queue.submit([commandEncoder.finish()]);
