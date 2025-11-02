@@ -15,4 +15,14 @@ export class App {
 	async initialize() {
 		await this.renderer.Initialize();
 	}
+
+	run = () => {
+		var running: boolean = true;
+		this.scence.update();
+		this.renderer.render(this.scence.get_player(), this.scence.get_triangles());
+
+		if (running) {
+			requestAnimationFrame(this.run);
+		}
+	};
 }
