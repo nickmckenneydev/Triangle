@@ -1,5 +1,5 @@
 import shader from './shaders/shaders.wgsl';
-import { TriangleMesh } from '../triangle_mesh';
+import { TriangleMesh } from './triangle_mesh';
 import { mat4 } from 'gl-matrix';
 import { Material } from './material';
 import { Camera } from '../model/camera';
