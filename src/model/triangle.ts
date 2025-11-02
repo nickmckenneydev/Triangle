@@ -1,10 +1,10 @@
-import { vec4, mat4 } from 'gl-matrix';
+import { vec3, vec4, mat4 } from 'gl-matrix';
 import { Deg2Rad } from './math_stuff';
 
 export class Triangle {
 	position: vec3;
 	eulers: vec3;
-	model: vec4;
+	model!: vec4;
 
 	constructor(position: vec3, theta: number) {
 		this.position = position;

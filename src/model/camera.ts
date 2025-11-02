@@ -22,12 +22,9 @@ export class Camera {
 	}
 	update() {
 		this.forwards = [
-			//rot around z axis
-
-			//spherical coords
-			Math.cos(Deg2Rad(this.eulers[2])) * Math.cos(this.eulers[1]),
-			Math.sin(Deg2Rad(this.eulers[2])) * Math.cos(this.eulers[1]),
-			Math.sin(this.eulers[1]),
+			Math.cos(Deg2Rad(this.eulers[2])) * Math.cos(Deg2Rad(this.eulers[1])),
+			Math.sin(Deg2Rad(this.eulers[2])) * Math.cos(Deg2Rad(this.eulers[1])),
+			Math.sin(Deg2Rad(this.eulers[1])),
 		];
 
 		//right vec of camera
