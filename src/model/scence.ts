@@ -1,6 +1,6 @@
 import { Triangle } from './triangle';
 import { Camera } from './camera';
-
+import { vec3 } from 'gl-matrix';
 export class Scene {
 	triangles: Triangle[];
 	player: Camera;
@@ -23,6 +23,15 @@ export class Scene {
 		this.player.eulers[1] = Math.min(89, Math.max(-89, this.player.eulers[1] + dY));
 	}
 
+	move_player(forwards_amount: number, right_amount: number) {
+		vec3.scaleAndAdd(
+			this.player.position,
+			this.player.position,
+			this.player.forwards,
+			forwards_amount,
+		);
+		vec3.scaleAndAdd(this.player.position, this.player.position, this.player.right, right_amount);
+	}
 	get_player(): Camera {
 		return this.player;
 	}
