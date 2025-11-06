@@ -43,6 +43,7 @@ export class App {
 	run = () => {
 		var running: boolean = true;
 		this.scence.update();
+		this.scence.move_player(this.forwards_amount, this.right_amount);
 		this.renderer.render(this.scence.get_player(), this.scence.get_triangles());
 
 		if (running) {
