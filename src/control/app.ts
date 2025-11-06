@@ -23,6 +23,10 @@ export class App {
 		$(document).on('keypress', (event) => {
 			this.handle_keypress(event);
 		});
+
+		$(document).on('mousemove', (event) => {
+			this.handle_mousemove(event);
+		});
 	}
 
 	async initialize() {
@@ -41,5 +45,10 @@ export class App {
 
 	handle_keypress(event: JQuery.KeyPressEvent) {
 		this.keyLabel.innerText = event.code;
+	}
+
+	handle_mousemove(event: JQuery.MouseMoveEvent) {
+		this.mouseXLabel.innerText = event.screenX.toString();
+		this.mouseYLabel.innerText = event.screenX.toString();
 	}
 }
