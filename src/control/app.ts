@@ -1,6 +1,7 @@
 import { Renderer } from '../view/renderer';
 import { Scene } from '../model/scence';
 import { event } from 'jquery';
+import $ from 'jquery';
 
 export class App {
 	canvas: HTMLCanvasElement;
@@ -17,6 +18,8 @@ export class App {
 		this.scence = new Scene();
 
 		this.keyLabel = <HTMLElement>document.getElementById('key-label');
+		this.mouseXLabel = <HTMLElement>document.getElementById('mouse-x-label');
+		this.mouseYLabel = <HTMLElement>document.getElementById('mouse-y-label');
 		$(document).on('keypress', (event) => {
 			this.handle_keypress(event);
 		});
