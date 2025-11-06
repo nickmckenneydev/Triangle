@@ -2,7 +2,7 @@ import { Renderer } from '../view/renderer';
 import { Scene } from '../model/scence';
 import { event } from 'jquery';
 import $ from 'jquery';
-
+import { vec3 } from 'gl-matrix';
 export class App {
 	canvas: HTMLCanvasElement;
 	renderer: Renderer;
@@ -12,14 +12,15 @@ export class App {
 	mouseXLabel: HTMLElement;
 	mouseYLabel: HTMLElement;
 
-	forwards_amount: number; //state of camera position
-	right_amount: number; //state of camera position
+	forwards_amount!: number; //state of camera position
+	right_amount!: number; //state of camera position
 
 	constructor(canvas: HTMLCanvasElement) {
 		this.canvas = canvas;
 		this.renderer = new Renderer(canvas);
 		this.scence = new Scene();
-
+		this.forwards_amount = 0;
+		this.right_amount = 0;
 		this.keyLabel = <HTMLElement>document.getElementById('key-label');
 		$(document).on('keydown', (event) => {
 			this.handle_keypress(event);
