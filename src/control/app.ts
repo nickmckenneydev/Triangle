@@ -91,6 +91,6 @@ export class App {
 	handle_mouse_move(event: MouseEvent) {
 		this.mouseXLabel.innerText = event.clientX.toString();
 		this.mouseYLabel.innerText = event.clientY.toString();
-		this.scene.spin_player(event.movementX / 5, event.movementY / 5);
+		this.scene.spin_player(event.movementX / 50, event.movementY / 50);
 	}
 }
