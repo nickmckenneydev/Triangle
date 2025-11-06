@@ -12,6 +12,9 @@ export class App {
 	mouseXLabel: HTMLElement;
 	mouseYLabel: HTMLElement;
 
+	forwards_amount: number; //state of camera position
+	right_amount: number; //state of camera position
+
 	constructor(canvas: HTMLCanvasElement) {
 		this.canvas = canvas;
 		this.renderer = new Renderer(canvas);
@@ -43,8 +46,38 @@ export class App {
 		}
 	};
 
-	handle_keypress(event: JQuery.KeyPressEvent) {
+	handle_keypress(event: JQuery.KeyDownEvent) {
 		this.keyLabel.innerText = event.code;
+
+		if (event.code == 'KeyW') {
+			this.forwards_amount = 0.02;
+		}
+		if (event.code == 'KeyS') {
+			this.forwards_amount = -0.02;
+		}
+		if (event.code == 'KeyA') {
+			this.right_amount = -0.02;
+		}
+		if (event.code == 'KeyD') {
+			this.right_amount = 0.02;
+		}
+	}
+
+	handle_keyrelease(event: JQuery.KeyUpEvent) {
+		this.keyLabel.innerText = event.code;
+
+		if (event.code == 'KeyW') {
+			this.forwards_amount = 0;
+		}
+		if (event.code == 'KeyS') {
+			this.forwards_amount = 0;
+		}
+		if (event.code == 'KeyA') {
+			this.right_amount = 0;
+		}
+		if (event.code == 'KeyD') {
+			this.right_amount = 0;
+		}
 	}
 
 	handle_mousemove(event: JQuery.MouseMoveEvent) {
