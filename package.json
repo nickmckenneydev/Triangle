@@ -21,18 +21,20 @@
 		"@webgpu/types": "*",
 		"gl-matrix": "*",
 		"http-server": "*",
+		"jquery": "^3.7.1",
+		"live-server": "*",
 		"node": "*",
 		"ts-loader": "*",
 		"ts-shader-loader": "*",
 		"typescript": "*",
 		"webpack": "*",
-		"webpack-cli": "*",
-		"live-server": "*"
+		"webpack-cli": "*"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.55.1",
 		"@prettier/plugin-oxc": "^0.0.4",
 		"@tsconfig/node22": "^22.0.2",
+		"@types/jquery": "^3.5.33",
 		"@types/node": "^22.18.6",
 		"@types/three": "^0.180.0",
 		"@vitejs/plugin-vue": "^6.0.1",
