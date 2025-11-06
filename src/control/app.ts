@@ -21,6 +21,7 @@ export class App {
 		this.scence = new Scene();
 		this.forwards_amount = 0;
 		this.right_amount = 0;
+
 		this.keyLabel = <HTMLElement>document.getElementById('key-label');
 		$(document).on('keydown', (event) => {
 			this.handle_keypress(event);
@@ -31,10 +32,9 @@ export class App {
 
 		this.mouseXLabel = <HTMLElement>document.getElementById('mouse-x-label');
 		this.mouseYLabel = <HTMLElement>document.getElementById('mouse-y-label');
-
-		$(document).on('mousemove', (event) => {
-			this.handle_mousemove(event);
-		});
+		this.canvas.onclick = () => {
+			this.canvas.requestPointerLock();
+		};
 	}
 
 	async initialize() {
@@ -46,7 +46,6 @@ export class App {
 		this.scence.update();
 		this.scence.move_player(this.forwards_amount, this.right_amount);
 		this.renderer.render(this.scence.get_player(), this.scence.get_triangles());
-
 		if (running) {
 			requestAnimationFrame(this.run);
 		}
@@ -89,5 +88,6 @@ export class App {
 	handle_mousemove(event: JQuery.MouseMoveEvent) {
 		this.mouseXLabel.innerText = event.screenX.toString();
 		this.mouseYLabel.innerText = event.screenX.toString();
+		this.scence.spin_player(event.screenX, event.screenY);
 	}
 }
