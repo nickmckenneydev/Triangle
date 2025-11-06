@@ -35,6 +35,9 @@ export class App {
 		this.canvas.onclick = () => {
 			this.canvas.requestPointerLock();
 		};
+		this.canvas.addEventListener('mousemove', (event: MouseEvent) => {
+			this.handle_mouse_move(event);
+		});
 	}
 
 	async initialize() {
@@ -85,7 +88,7 @@ export class App {
 		}
 	}
 
-	handle_mousemove(event: JQuery.MouseMoveEvent) {
+	handle_mouse_move(event: MouseEvent) {
 		this.mouseXLabel.innerText = event.screenX.toString();
 		this.mouseYLabel.innerText = event.screenX.toString();
 		this.scence.spin_player(event.screenX, event.screenY);
