@@ -1,12 +1,12 @@
 import { Renderer } from '../view/renderer';
-import { Scene } from '../model/scence';
+import { Scene } from '../model/scene';
 import { event } from 'jquery';
 import $ from 'jquery';
 import { vec3 } from 'gl-matrix';
 export class App {
 	canvas: HTMLCanvasElement;
 	renderer: Renderer;
-	scence: Scene;
+	scene: Scene;
 
 	keyLabel: HTMLElement;
 	mouseXLabel: HTMLElement;
@@ -18,7 +18,7 @@ export class App {
 	constructor(canvas: HTMLCanvasElement) {
 		this.canvas = canvas;
 		this.renderer = new Renderer(canvas);
-		this.scence = new Scene();
+		this.scene = new Scene();
 		this.forwards_amount = 0;
 		this.right_amount = 0;
 
@@ -46,9 +46,9 @@ export class App {
 
 	run = () => {
 		var running: boolean = true;
-		this.scence.update();
-		this.scence.move_player(this.forwards_amount, this.right_amount);
-		this.renderer.render(this.scence.get_player(), this.scence.get_triangles());
+		this.scene.update();
+		this.scene.move_player(this.forwards_amount, this.right_amount);
+		this.renderer.render(this.scene.get_player(), this.scene.get_triangles());
 		if (running) {
 			requestAnimationFrame(this.run);
 		}
@@ -89,8 +89,8 @@ export class App {
 	}
 
 	handle_mouse_move(event: MouseEvent) {
-		this.mouseXLabel.innerText = event.screenX.toString();
-		this.mouseYLabel.innerText = event.screenX.toString();
-		this.scence.spin_player(event.screenX, event.screenY);
+		this.mouseXLabel.innerText = event.clientX.toString();
+		this.mouseYLabel.innerText = event.clientY.toString();
+		this.scene.spin_player(event.movementX / 5, event.movementY / 5);
 	}
 }
