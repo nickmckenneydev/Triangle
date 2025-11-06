@@ -21,11 +21,15 @@ export class App {
 		this.scence = new Scene();
 
 		this.keyLabel = <HTMLElement>document.getElementById('key-label');
-		this.mouseXLabel = <HTMLElement>document.getElementById('mouse-x-label');
-		this.mouseYLabel = <HTMLElement>document.getElementById('mouse-y-label');
-		$(document).on('keypress', (event) => {
+		$(document).on('keydown', (event) => {
 			this.handle_keypress(event);
 		});
+		$(document).on('keyup', (event) => {
+			this.handle_keyrelease(event);
+		});
+
+		this.mouseXLabel = <HTMLElement>document.getElementById('mouse-x-label');
+		this.mouseYLabel = <HTMLElement>document.getElementById('mouse-y-label');
 
 		$(document).on('mousemove', (event) => {
 			this.handle_mousemove(event);
