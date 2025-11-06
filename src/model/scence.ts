@@ -15,6 +15,14 @@ export class Scene {
 		this.triangles.forEach((triangle) => triangle.update());
 		this.player.update();
 	}
+
+	spin_player(dX: number, dY: number) {
+		this.player.eulers[2] -= dX;
+		this.player.eulers[2] %= 360;
+
+		this.player.eulers[1] = Math.min(89, Math.max(-89, this.player.eulers[1] + dY));
+	}
+
 	get_player(): Camera {
 		return this.player;
 	}
