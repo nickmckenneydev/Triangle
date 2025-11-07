@@ -27,6 +27,7 @@ export class Renderer {
 	// Assets
 	triangleMesh!: TriangleMesh;
 	material!: Material;
+	objectBuffer!: GPUBuffer;
 
 	t: number = 0.0;
 
@@ -64,7 +65,7 @@ export class Renderer {
 
 	async makePipeline() {
 		this.uniformBuffer = this.device.createBuffer({
-			size: 64 * 3,
+			size: 64 * 2,
 			usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
 		});
 
@@ -77,13 +78,18 @@ export class Renderer {
 				},
 				{
 					binding: 1,
-					visibility: GPUShaderStage.FRAGMENT,
+					visibility: GPUShaderStage.FRAGMENT, //myTexture
 					texture: {},
 				},
 				{
 					binding: 2,
 					visibility: GPUShaderStage.FRAGMENT,
 					sampler: {},
+				},
+				{
+					binding: 3,
+					visibility: GPUShaderStage.VERTEX,
+					buffer: { type: 'read-only-storage', hasDynamicOffset: false },
 				},
 			],
 		});
@@ -104,6 +110,12 @@ export class Renderer {
 				{
 					binding: 2,
 					resource: this.material.sampler,
+				},
+				{
+					binding: 3,
+					resource: {
+						buffer: this.objectBuffer, //Allows GPU to have access to resources
+					},
 				},
 			],
 		});
@@ -145,6 +157,14 @@ export class Renderer {
 		//Must be async
 		this.triangleMesh = new TriangleMesh(this.device);
 		this.material = new Material(); //Creating the class
+
+		const moduleBufferDescriptor: GPUBufferDescriptor = {
+			size: 64 * 1024,
+			usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
+		};
+
+		this.objectBuffer = this.device.createBuffer(moduleBufferDescriptor);
+
 		await this.material.initalize(this.device, 'dist/img/img.jpg'); //pass in device and file path to img
 	}
 

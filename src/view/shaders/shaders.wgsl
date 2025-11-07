@@ -14,11 +14,11 @@ struct ObjectData {
 struct Fragment {
     @builtin(position) Position : vec4<f32>,
     @location(0) TexCoord : vec2<f32>
-};
+}; 
 
 @vertex
 fn vs_main(
-    @builtin(instance_index) ID:u32,//instance ID
+    @builtin(instance_index) ID:u32,//instance ID. Allows for draw objects to be more than 1. 
     @location(0) vertexPostion: vec3<f32>, 
     @location(1) vertexTexCoord: vec2<f32>) -> Fragment {
 
