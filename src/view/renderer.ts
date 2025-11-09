@@ -174,7 +174,7 @@ export class Renderer {
 		const projection = mat4.create();
 		//making projection matrix
 		//writes to projection
-		mat4.perspective(projection, Math.PI / 4, 800 / 600, 0.1, 10);
+		mat4.perspective(projection, Math.PI / 4, 800 / 600, 0.1, Infinity);
 
 		const view = camera.get_view();
 

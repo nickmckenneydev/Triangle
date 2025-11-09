@@ -7,24 +7,23 @@ struct ObjectData {
     model: array<mat4x4<f32>>,
 };
 
-@binding(0) @group(0) var<uniform> transformUBO: TransformData;
-@binding(1) @group(0) var myTexture: texture_2d<f32>;
-@binding(2) @group(0) var mySampler: sampler;
-@binding(3) @group(0) var<storage,read> objects: ObjectData;
+@binding(0) @group(0) var<uniform> transformUBO: TransformData;//Camera. Uniform buffer bound to slot 0
+@binding(1) @group(0) var myTexture: texture_2d<f32>;//Binds image to slot 1
+@binding(2) @group(0) var mySampler: sampler;//How to read the image 
+@binding(3) @group(0) var<storage,read> objects: ObjectData;//s
 struct Fragment {
     @builtin(position) Position : vec4<f32>,
     @location(0) TexCoord : vec2<f32>
 }; 
 
 @vertex
-fn vs_main(
+fn vs_main(//Runs on every vertex local position
     @builtin(instance_index) ID:u32,//instance ID. Allows for draw objects to be more than 1. 
     @location(0) vertexPostion: vec3<f32>, 
     @location(1) vertexTexCoord: vec2<f32>) -> Fragment {
 
     var output : Fragment;
-    //                       Depth     |    Sets it from world coord to view| Transforms Model coords to world
-    // Takes a vertex local position and calcs it final position
+
     
     output.Position = transformUBO.projection * transformUBO.view * objects.model[ID] * vec4<f32>(vertexPostion, 1.0);
     output.TexCoord = vertexTexCoord;
