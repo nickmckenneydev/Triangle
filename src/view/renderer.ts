@@ -179,6 +179,13 @@ export class Renderer {
 		const view = camera.get_view();
 
 		//type landering -> tells compiler to forget orginal type and make new type
+		this.device.queue.writeBuffer(
+			this.objectBuffer,
+			0,
+			new Float32Array(triangles),
+			0,
+			triangles.length,
+		);
 		this.device.queue.writeBuffer(this.uniformBuffer, 0, new Float32Array(view));
 		this.device.queue.writeBuffer(this.uniformBuffer, 64, new Float32Array(projection));
 
@@ -200,12 +207,8 @@ export class Renderer {
 
 		renderpass.setPipeline(this.pipeline);
 		renderpass.setVertexBuffer(0, this.triangleMesh.buffer);
-		triangles.forEach((triangle) => {
-			const model = triangle.get_model();
-			this.device.queue.writeBuffer(this.uniformBuffer, 0, new Float32Array(model));
-			renderpass.setBindGroup(0, this.bindGroup);
-			renderpass.draw(3, 1, 0, 0);
-		});
+		renderpass.setBindGroup(0, this.bindGroup);
+		renderpass.draw(3, 1, 0, 0);
 
 		renderpass.end();
 
