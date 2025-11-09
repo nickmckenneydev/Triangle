@@ -2,7 +2,6 @@ import { Renderer } from '../view/renderer';
 import { Scene } from '../model/scene';
 import { event } from 'jquery';
 import $ from 'jquery';
-import { vec3 } from 'gl-matrix';
 export class App {
 	canvas: HTMLCanvasElement;
 	renderer: Renderer;
@@ -45,6 +44,7 @@ export class App {
 	}
 
 	run = () => {
+		// allows to bind this to requestAnimationFrame
 		var running: boolean = true;
 		this.scene.update();
 		this.scene.move_player(this.forwards_amount, this.right_amount);
@@ -54,7 +54,7 @@ export class App {
 			this.scene.triangle_count,
 		);
 		if (running) {
-			requestAnimationFrame(this.run);
+			requestAnimationFrame(this.run); // This is a synchronous schduler.
 		}
 	};
 

@@ -186,7 +186,7 @@ export class Renderer {
 			0,
 			triangles.length,
 		);
-		this.device.queue.writeBuffer(this.uniformBuffer, 0, new Float32Array(view));
+		this.device.queue.writeBuffer(this.uniformBuffer, 0, new Float32Array(view)); //copy 16 numbers from view matrix in cpu to uniformbuffer in gpu mem
 		this.device.queue.writeBuffer(this.uniformBuffer, 64, new Float32Array(projection));
 
 		//command encoder: records draw commands for submission

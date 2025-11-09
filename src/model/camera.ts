@@ -13,7 +13,7 @@ export class Camera {
 
 	constructor(position: vec3, theta: number, phi: number) {
 		this.position = position;
-		this.eulers = [0, phi, theta];
+		this.eulers = [0, phi, theta]; //Rotation[roll,raw,pitch]
 
 		//These are just starting values which will be overwritten
 		this.forwards = vec3.create();
@@ -35,6 +35,7 @@ export class Camera {
 
 		//camera look at matrix
 		var target: vec3 = vec3.create();
+
 		vec3.add(target, this.position, this.forwards);
 		this.view = mat4.create();
 		mat4.lookAt(this.view, this.position, target, this.up);

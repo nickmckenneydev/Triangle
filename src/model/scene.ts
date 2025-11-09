@@ -14,7 +14,7 @@ export class Scene {
 
 		var i: number = 0;
 		for (var y: number = -5; y < 5; y++) {
-			this.triangles.push(new Triangle([2, y, 0], 0));
+			this.triangles.push(new Triangle([2, y, 0], 2)); //building the scene
 
 			var blank_matrix = mat4.create();
 			for (var j: number = 0; j < 16; j++) {
