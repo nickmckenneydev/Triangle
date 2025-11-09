@@ -169,7 +169,7 @@ export class Renderer {
 	}
 
 	//GPU API is out of step with rest of program.
-	async render(camera: Camera, triangles: Triangle[]) {
+	async render(camera: Camera, triangles: Float32Array, triangle_count: number) {
 		//Create the matrices before doing command encoding
 		const projection = mat4.create();
 		//making projection matrix
@@ -179,8 +179,8 @@ export class Renderer {
 		const view = camera.get_view();
 
 		//type landering -> tells compiler to forget orginal type and make new type
-		this.device.queue.writeBuffer(this.uniformBuffer, 64, new Float32Array(view));
-		this.device.queue.writeBuffer(this.uniformBuffer, 128, new Float32Array(projection));
+		this.device.queue.writeBuffer(this.uniformBuffer, 0, new Float32Array(view));
+		this.device.queue.writeBuffer(this.uniformBuffer, 64, new Float32Array(projection));
 
 		//command encoder: records draw commands for submission
 		const commandEncoder: GPUCommandEncoder = this.device.createCommandEncoder();

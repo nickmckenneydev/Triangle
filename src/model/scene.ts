@@ -28,7 +28,14 @@ export class Scene {
 	}
 
 	update() {
-		this.triangles.forEach((triangle) => triangle.update());
+		var i: number = 0;
+		this.triangles.forEach((triangle) => {
+			triangle.update();
+			var model = triangle.get_model();
+			for (var j: number = 0; j < 16; j++) {
+				this.object_data[16 * i + j] = model[j];
+			}
+		});
 		this.player.update();
 	}
 
@@ -52,7 +59,7 @@ export class Scene {
 		return this.player;
 	}
 
-	get_triangles(): Triangle[] {
-		return this.triangles;
+	get_triangles(): Float32Array {
+		return this.object_data;
 	}
 }
