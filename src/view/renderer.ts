@@ -208,7 +208,7 @@ export class Renderer {
 		renderpass.setPipeline(this.pipeline);
 		renderpass.setVertexBuffer(0, this.triangleMesh.buffer);
 		renderpass.setBindGroup(0, this.bindGroup);
-		renderpass.draw(3, 1, 0, 0);
+		renderpass.draw(3, triangle_count, 0, 0);
 
 		renderpass.end();
 

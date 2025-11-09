@@ -35,6 +35,7 @@ export class Scene {
 			for (var j: number = 0; j < 16; j++) {
 				this.object_data[16 * i + j] = model[j];
 			}
+			i++;
 		});
 		this.player.update();
 	}
